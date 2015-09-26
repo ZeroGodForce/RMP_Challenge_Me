@@ -28,7 +28,10 @@ class ExportController extends BaseController {
     public function exportStudentsToCSV()
     {
         $all_student_data = Students::with('address', 'course')->get();
+        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+        $column_flag = false;
         $student = [];
+
         foreach ($all_student_data as $student_data):
             //Personal data
             $student['firstname'] = $student_data['firstname'];
@@ -45,21 +48,16 @@ class ExportController extends BaseController {
             $student['course_name'] = $student_data->course['course_name'];
             $student['university'] = $student_data->course['university'];
 
+            //Check whether column headers have been set
+            if ($column_flag === false):
+                $csv->insertOne(\Schema::getColumnListing('student'));
+                $column_flag = true;
+            endif;
+
+            $csv->insertOne($student);
         endforeach;
 
-        die;
-//        dd($export);
-
-
-
-//        $file = fopen('student_details.csv', 'w');
-//        foreach ($table as $row) {
-//            fputcsv($file, $row->toArray());
-//        }
-//        fclose($file);
-
-
-
+        $csv->output('all_student_records.csv');
     }
 
     /**

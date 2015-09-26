@@ -64,6 +64,7 @@
             <div  style='margin: 10px;  text-align: left'>
                 <input id="selectall" type="button" value="Select All"/>
                 <input type="button" value="Export"/>
+                <a href="/export" class="button">Export all student data</a>
             </div>
         </div>
 

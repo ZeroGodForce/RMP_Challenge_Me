@@ -19,7 +19,7 @@ class Students extends Eloquent {
 
     public function address(){
 
-        return $this->hasOne('StudentAddresses' , 'id');
+        return $this->belongsTo('StudentAddresses');
 
     }
 

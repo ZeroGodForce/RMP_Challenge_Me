@@ -8,7 +8,7 @@ class Students extends Eloquent {
      * @var string
      */
     protected $table = 'student';
-    
+
     public $timestamps = false;
 
 
@@ -16,11 +16,11 @@ class Students extends Eloquent {
     {
         return $this->belongsTo('Course');
     }
-    
+
     public function address(){
-        
+
         return $this->hasOne('StudentAddresses' , 'id');
-        
+
     }
-    
+
 }

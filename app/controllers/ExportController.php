@@ -27,10 +27,12 @@ class ExportController extends BaseController {
      */
     public function exportStudentsToCSV()
     {
-        $table = Students::all();
-        $file = fopen('file.csv', 'w');
+        $table = Students::with('address')->get();
+        var_dump($table);
+        die;
+        $file = fopen('student_details.csv', 'w');
         foreach ($table as $row) {
-            fputcsv($file, $row->to_array());
+            fputcsv($file, $row->toArray());
         }
         fclose($file);
 

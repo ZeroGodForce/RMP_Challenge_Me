@@ -22,7 +22,7 @@
             }
 
             .student-table{
-                width:100%;  
+                width:100%;
             }
 
             table.student-table th{
@@ -58,11 +58,11 @@
     </head>
 
     <body>
-        
+
         <div class="header">
             <div>{{ HTML::image('/images/RMP_logo_sm.jpg') }}</div>
             <div  style='margin: 10px;  text-align: left'>
-                <input type="button" value="Select All"/>
+                <input id="selectall" type="button" value="Select All"/>
                 <input type="button" value="Export"/>
             </div>
         </div>
@@ -100,8 +100,29 @@
             </div>
 
         </form>
-        
-        
+
+        <script>
+//            $(function(){
+//
+//                // add multiple select / deselect functionality
+//                $("#selectall").click(function () {
+//                    $('.case').attr('checked', this.checked);
+//                });
+//
+//                // if all checkbox are selected, check the selectall checkbox
+//                // and viceversa
+//                $(".case").click(function(){
+//
+//                    if($(".case").length == $(".case:checked").length) {
+//                        $("#selectall").attr("checked", "checked");
+//                    } else {
+//                        $("#selectall").removeAttr("checked");
+//                    }
+//
+//                });
+//            });
+        </script
+
     </body>
 
 </html>

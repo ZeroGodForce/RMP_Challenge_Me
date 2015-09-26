@@ -48,7 +48,7 @@ class ExportController extends BaseController {
             $student['course_name'] = $student_data->course['course_name'];
             $student['university'] = $student_data->course['university'];
 
-            //Check whether column headers have been set
+            //Check whether column headers have been set (not ideal for large datasets)
             if ($column_flag === false):
                 $csv->insertOne(\Schema::getColumnListing('student'));
                 $column_flag = true;
@@ -65,7 +65,37 @@ class ExportController extends BaseController {
      */
     public function exporttCourseAttendenceToCSV()
     {
+//        $course_data = Course::with('students')->distinct('id')->count('id');
 
+        $course_data =  Course::with('students')->get();
+        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+        $column_flag = false;
+        $course_listing = [];
+
+
+        foreach ($course_data as $course):
+
+            $course_listing['course_name'] = $course->course_name;
+            $course_listing['no_students'] = count($course->students);
+//            var_dump($course_listing);
+//            echo '<h2>' . $course->course_name. '</h2><br>';
+//            foreach ($course->students as $student):
+//               echo $student->firstname . ' ' . $student->surname . '<br>';
+//            endforeach;
+
+//            echo 'Number of students on course: ' . count($course->students)  . '<br><br><br>';
+
+            //Check whether column headers have been set (not ideal for large datasets)
+//            if ($column_flag === false):
+//                $csv->insertOne(\Schema::getColumnListing('course_listing'));
+//                $column_flag = true;
+//            endif;
+
+            endforeach;
+        $csv->output('course_attendance_records.csv');
+
+//die;
+//return $course_data;
     }
 
 

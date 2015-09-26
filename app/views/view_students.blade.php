@@ -65,6 +65,7 @@
                 <input id="selectall" type="button" value="Select All"/>
                 <input type="button" value="Export"/>
                 <a href="/export" class="button">Export all student data</a>
+                <a href="/attendance" class="button">Export attendance data</a>
             </div>
         </div>
 
@@ -102,27 +103,31 @@
 
         </form>
 
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
         <script>
-//            $(function(){
+                        $(function(){
+
+                            // add multiple select / deselect functionality
+                            $("#selectall").click(function () {
+                                $('checkbox').attr('checked', 'checked');
+                            });
+
+                            // if all checkbox are selected, check the selectall checkbox
+                            // and viceversa
+//                            $(".case").click(function(){
 //
-//                // add multiple select / deselect functionality
-//                $("#selectall").click(function () {
-//                    $('.case').attr('checked', this.checked);
-//                });
+//                                if($(".case").length == $(".case:checked").length) {
+//                                    $("#selectall").attr("checked", "checked");
+//                                } else {
+//                                    $("#selectall").removeAttr("checked");
+//                                }
 //
-//                // if all checkbox are selected, check the selectall checkbox
-//                // and viceversa
-//                $(".case").click(function(){
-//
-//                    if($(".case").length == $(".case:checked").length) {
-//                        $("#selectall").attr("checked", "checked");
-//                    } else {
-//                        $("#selectall").removeAttr("checked");
-//                    }
-//
-//                });
-//            });
-        </script
+//                            });
+                        });
+        </script>
 
     </body>
 

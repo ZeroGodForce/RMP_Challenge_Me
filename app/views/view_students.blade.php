@@ -55,78 +55,83 @@
                 margin: 16px 0 0 0;
             }
         </style>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"/>
     </head>
-
     <body>
-
+    {{ Form::open(array('url' => '/exportSelected')) }}
         <div class="header">
             <div>{{ HTML::image('/images/RMP_logo_sm.jpg') }}</div>
-            <div  style='margin: 10px;  text-align: left'>
-                <input id="selectall" type="button" value="Select All"/>
-                <input type="button" value="Export"/>
-                <a href="/export" class="button">Export all student data</a>
-                <a href="/attendance" class="button">Export attendance data</a>
+            <div  style='margin: 10px; text-align: left'>
+                <input id="selectAll" type="button" value="Select All"/>
+                <input id="selectNone" type="button" value="Select None" style="display: none;"/>
+                <input type="submit" value="Export Selection"/>
+                | <a href="/export" class="button">Export all student data</a> |
+                <a href="/attendance" class="button">Export course attendance data</a> |
             </div>
         </div>
 
-        <form>
+        <div style='margin: 10px; text-align: center;'>
+            <table class="student-table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Forename</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>University</th>
+                    <th>Course</th>
+                </tr>
+                </thead>
 
-            <div style='margin: 10px; text-align: center;'>
-                <table class="student-table">
-                    <tr>
-                        <th></th>
-                        <th>Forename</th>
-                        <th>Surname</th>
-                        <th>Email</th>
-                        <th>University</th>
-                        <th>Course</th>
-                    </tr>
+                <tbody>
+                @if(  count($students) > 0 )
+                @foreach($students as $student)
+                <tr>
+                    <td>{{Form::checkbox('studentId[]', $student['id'], false, ['class' => 'selectStudent']) }}</td>
+                    <td style=' text-align: left;'>{{$student['firstname']}}</td>
+                    <td style=' text-align: left;'>{{$student['surname']}}</td>
+                    <td style=' text-align: left;'>{{$student['email']}}</td>
+                    <td style=' text-align: left;'>{{$student['course']['university']}}</td>
+                    <td style=' text-align: left;'>{{$student['course']['course_name']}}</td>
+                </tr>
+                @endforeach
+                @else
+                <tr>
+                    <td colspan="6" style="text-align: center">Oh dear, no data found.</td>
+                </tr>
+                @endif
+                </tbody>
+            </table>
+        </div>
+        {{ Form::close() }}
 
-                    @if(  count($students) > 0 )
-                    @foreach($students as $student)
-                    <tr>
-                        <td>{{Form::checkbox('studentId', $student['id']) }}</td>
-                        <td style=' text-align: left;'>{{$student['firstname']}}</td>
-                        <td style=' text-align: left;'>{{$student['surname']}}</td>
-                        <td style=' text-align: left;'>{{$student['email']}}</td>
-                        <td style=' text-align: left;'>{{$student['course']['university']}}</td>
-                        <td style=' text-align: left;'>{{$student['course']['course_name']}}</td>
-                    </tr>
-                    @endforeach
-                    @else
-                    <tr>
-                        <td colspan="6" style="text-align: center">Oh dear, no data found.</td>
-                    </tr>
-                    @endif
-                </table>
-            </div>
-
-        </form>
-
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- DataTables -->
+    {{--<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>--}}
         <script>
-                        $(function(){
-
-                            // add multiple select / deselect functionality
-                            $("#selectall").click(function () {
-                                $('checkbox').attr('checked', 'checked');
-                            });
-
-                            // if all checkbox are selected, check the selectall checkbox
-                            // and viceversa
-//                            $(".case").click(function(){
-//
-//                                if($(".case").length == $(".case:checked").length) {
-//                                    $("#selectall").attr("checked", "checked");
-//                                } else {
-//                                    $("#selectall").removeAttr("checked");
-//                                }
-//
-//                            });
-                        });
+            // would normally put this in an external file
+            $(document).ready(function() {
+//                Decided to leave DataTables out in the end as no time to complete styling
+//                $('.student-table').DataTable({
+//                    scrollY:        '50vh',
+//                    scrollCollapse: true,
+//                    paging:         false
+//                });
+                $('#selectAll').click(
+                    function() {
+                        $(".student-table .selectStudent").prop('checked', true);
+                        $('#selectAll').hide();
+                        $('#selectNone').show();
+                    }
+                );
+                $('#selectNone').click(
+                    function() {
+                        $(".student-table .selectStudent").prop('checked', false);
+                        $('#selectAll').show();
+                        $('#selectNone').hide();
+                    }
+                );
+            });
         </script>
 
     </body>
